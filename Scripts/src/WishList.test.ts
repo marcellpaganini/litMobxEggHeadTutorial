@@ -1,5 +1,5 @@
 import { IWishList, IWishListItem, WishList, WishListItem } from "./WishList"
-import { getSnapshot } from "mobx-state-tree"
+import { getSnapshot, onSnapshot } from "mobx-state-tree"
 
 it("can create an instance of a model", () => {
     const item = WishListItem.create({
@@ -33,10 +33,16 @@ it("can create a wishlist", () => {
 it("can add new items", () => {
     const list = WishList.create()
     list.add({
-    name: "Chesterton",
-    price: 10,
-    image: ""
-} as Pick<IWishListItem, keyof IWishListItem>)
+        name: "Chesterton",
+        price: 10,
+        image: "",
+    } as Pick<IWishListItem, keyof IWishListItem>)
+    /*const states: any[] = []
+    onSnapshot(list, snapshot => {
+        states.push(snapshot)
+    })*/
+
+    
 
     expect(list.items.length).toBe(1)
     expect(list.items[0].name).toBe("Chesterton")
@@ -52,4 +58,10 @@ it("can add new items", () => {
             }
         ]
     })
+
+    //Instead of using getSnapshot(object).toEqual(). It will write the snapshot in a new file.
+    //expect(getSnapshot(list)).toMatchSnapshot()
+
+    //Even better, using onSnapshot(), create 'states' array(line 36) and add all state throughout the test.
+    //expect(states).toMatchSnapshot()
 })
