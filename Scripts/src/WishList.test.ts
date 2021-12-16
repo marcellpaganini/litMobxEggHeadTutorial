@@ -1,11 +1,25 @@
-import { WishListItem } from "./WishList";
+import { WishList, WishListItem } from "./WishList";
 
 it("can create an instance of a model", () => {
     const item = WishListItem.create({
         "name": "Chronicles of Narnia Box Set = C.S. Lewis",
-        "price": 28.73,
-        "image": "https://th.bing.com/th/id/OIP.o_fY1oEjb3q3ysiNikMRHQHaHa?w=212&h=212&c=7&r=0&o=5&pid=1.7"
+        "price": 28.73
     })
 
     expect(item.price).toBe(28.73)
+    expect(item.image).toBe("")
+})
+
+it("can create a wishlist", () => {
+    const list = WishList.create ({
+        items: [
+            {
+                "name": "Chronicles of Narnia Box Set = C.S. Lewis",
+                "price": 28.73
+            }
+        ]
+    })
+
+    expect(list.items.length).toBe(1)
+    expect(list.items[0].price).toBe(28.73)
 })
