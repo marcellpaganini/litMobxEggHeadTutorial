@@ -1,1 +1,1 @@
-# mobx-state-tree_eggheadTutorial
+# litMobxEggHeadTutorial
