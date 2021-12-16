@@ -24,8 +24,6 @@ export const WishListItem = types.model({
     }
 })) 
 
-type IWishListItem = Instance<typeof WishListItem>  
-
 export const WishList = types.model({
     items: types.array(WishListItem)
 }).actions(self => ({
@@ -33,3 +31,6 @@ export const WishList = types.model({
         self.items.push(item)
     }
 }))
+
+export type IWishListItem = Instance<typeof WishListItem>  
+export type IWishList = Instance<typeof WishList>  
