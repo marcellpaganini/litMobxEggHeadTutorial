@@ -1,5 +1,6 @@
 import { IWishList, IWishListItem, WishList, WishListItem } from "./WishList"
 import { getSnapshot, onSnapshot, onPatch } from "mobx-state-tree"
+import { reaction } from "mobx"
 
 it("can create an instance of a model", () => {
     const item = WishListItem.create({
@@ -84,4 +85,36 @@ it("can add new items - 2", () => {
 
     //Checking for all mutations in the array.
     expect(patches).toMatchSnapshot()
+})
+
+it("can calculate the total price of a wishlist", () => {
+    const list = WishList.create({
+        items: [
+            {
+                name: "Machine Gun Preacher",
+                price: 7.35,
+                image: "https://th.bing.com/th/id/OIP.azTIy-2FaB6OTNK4kjecQwHaJd?w=204&h=260&c=7&r=0&o=5&pid=1.7"
+            },
+            {
+                name: "Lego Mindstorms EV3",
+                price: 349.95,
+                image: "https://th.bing.com/th/id/OIP.K4faDnuviogJ21DdMUq57gHaHa?w=192&h=192&c=7&r=0&o=5&pid=1.7"
+            }
+
+        ]
+    })
+
+    expect(list.totalPrice).toBe(357.3)
+
+    //Mobx Reaction will listen to some observable data and call a callback whenever it changes.
+    let changed = 0
+    reaction(() => list.totalPrice, () => changed++)
+
+    expect(changed).toBe(0)
+    console.log(list.totalPrice)
+    list.items[0].changeName("Test")
+    expect(changed).toBe(0)
+    list.items[0].changePrice(10)
+    expect(changed).toBe(1)
+
 })
