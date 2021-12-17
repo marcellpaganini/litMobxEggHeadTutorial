@@ -60,7 +60,7 @@ it("can add new items", () => {
     })
 
     //Instead of using getSnapshot(object).toEqual(). It will write the snapshot in a new file.
-    //expect(getSnapshot(list)).toMatchSnapshot()
+    expect(getSnapshot(list)).toMatchSnapshot()
 
     //Even better, using onSnapshot(), create 'states' array(line 36) and add all state throughout the test.
     //expect(states).toMatchSnapshot()
