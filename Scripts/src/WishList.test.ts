@@ -1,5 +1,5 @@
 import { IWishList, IWishListItem, WishList, WishListItem } from "./WishList"
-import { getSnapshot, onSnapshot } from "mobx-state-tree"
+import { getSnapshot, onSnapshot, onPatch } from "mobx-state-tree"
 
 it("can create an instance of a model", () => {
     const item = WishListItem.create({
@@ -32,17 +32,17 @@ it("can create a wishlist", () => {
 //https://stackoverflow.com/questions/55729742/react-typescript-argument-of-type-x-number-any-is-not-assignable-to
 it("can add new items", () => {
     const list = WishList.create()
+    
+    const states: any[] = []
+    onSnapshot(list, snapshot => {
+        states.push(snapshot)
+    })
+    
     list.add({
         name: "Chesterton",
         price: 10,
         image: "",
     } as Pick<IWishListItem, keyof IWishListItem>)
-    /*const states: any[] = []
-    onSnapshot(list, snapshot => {
-        states.push(snapshot)
-    })*/
-
-    
 
     expect(list.items.length).toBe(1)
     expect(list.items[0].name).toBe("Chesterton")
@@ -63,5 +63,25 @@ it("can add new items", () => {
     expect(getSnapshot(list)).toMatchSnapshot()
 
     //Even better, using onSnapshot(), create 'states' array(line 36) and add all state throughout the test.
-    //expect(states).toMatchSnapshot()
+    expect(states).toMatchSnapshot()
+})
+
+it("can add new items - 2", () => {
+    const list = WishList.create()
+    
+    const patches: any[] = []
+    onPatch(list, patch => {
+        patches.push(patch)
+    })
+    
+    list.add({
+        name: "Chesterton",
+        price: 10,
+        image: "",
+    } as Pick<IWishListItem, keyof IWishListItem>)
+
+    list.items[0].changeName("Book of G.K Chesterton")
+
+    //Checking for all mutations in the array.
+    expect(patches).toMatchSnapshot()
 })
