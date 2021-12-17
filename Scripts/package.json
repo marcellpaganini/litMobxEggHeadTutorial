@@ -1,8 +1,19 @@
 {
+  "name": "client",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node run",
+    "build": "node build",
+    "test": "jest"
+  },
   "dependencies": {
     "@adobe/lit-mobx": "^2.0.0",
     "@tootallnate/once": "^3.0.0",
     "babel": "^6.23.0",
+    "esbuild": "^0.14.5",
     "lit": "^2.0.2",
     "mobx": "^6.3.9",
     "mobx-state-tree": "^5.1.0",
