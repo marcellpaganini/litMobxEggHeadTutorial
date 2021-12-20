@@ -1,7 +1,7 @@
 import { MobxLitElement } from '@adobe/lit-mobx';
 import { css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { IWishListItem, WishList } from './WishList';
+import { IWishList, IWishListItem, WishList } from './WishList';
 
 const itemsRow = ({ name, price, image }: IWishListItem) =>
 html`
@@ -12,7 +12,7 @@ html`
 </tr>
 `;
 
-const itemTable = (items: IWishListItem[] = []) =>
+const itemTable = (items: IWishListItem[] = [], giftList: IWishList) =>
     html`
     <table>
         <thead>
@@ -25,6 +25,7 @@ const itemTable = (items: IWishListItem[] = []) =>
             ${items.map(itemsRow)}
         </tbody>
     </table>
+    <div><strong>Total:</strong> ${giftList.totalPrice}</div>
     <br /><br />
     `;
 
@@ -35,10 +36,11 @@ export class WishListView extends MobxLitElement {
     
     firstUpdated = () => {
         this.giftList.load();
+        this.giftList.updatePriceCont();
     }
 
     render = () =>
         (this.giftList)
-        ? itemTable(this.giftList.items)
+        ? itemTable(this.giftList.items, this.giftList)
         : 'Loading';
 }

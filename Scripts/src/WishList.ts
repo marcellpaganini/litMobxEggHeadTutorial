@@ -1,7 +1,7 @@
 import { cast, Instance, types } from "mobx-state-tree"
 
 const data: any[] = [{
-    "name": "Chronicles of Narnia Box Set = C.S. Lewis",
+    "name": "Chronicles of Narnia Box Set : C.S. Lewis",
     "price": 28.73,
     "image": "https://th.bing.com/th/id/OIP.o_fY1oEjb3q3ysiNikMRHQHaHa?w=212&h=212&c=7&r=0&o=5&pid=1.7"
 },
@@ -47,6 +47,12 @@ export const WishList = types
         },
         load() {
             self.items = cast(data)
+        },
+        
+        updatePriceCont() {
+            setInterval(() => {
+                self.items[0].changePrice(self.items[0].price + 1)
+            }, 10000)
         }
     }))
     .views(self => ({

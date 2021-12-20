@@ -10387,7 +10387,7 @@
   // src/WishList.ts
   var data = [
     {
-      "name": "Chronicles of Narnia Box Set = C.S. Lewis",
+      "name": "Chronicles of Narnia Box Set : C.S. Lewis",
       "price": 28.73,
       "image": "https://th.bing.com/th/id/OIP.o_fY1oEjb3q3ysiNikMRHQHaHa?w=212&h=212&c=7&r=0&o=5&pid=1.7"
     },
@@ -10425,6 +10425,11 @@
     },
     load() {
       self2.items = cast(data);
+    },
+    updatePriceCont() {
+      setInterval(() => {
+        self2.items[0].changePrice(self2.items[0].price + 1);
+      }, 1e4);
     }
   })).views((self2) => ({
     get totalPrice() {
@@ -10440,7 +10445,7 @@
 <td><img src='${image}' style="width:50%; height:50%;"></td>
 </tr>
 `;
-  var itemTable = (items = []) => p`
+  var itemTable = (items = [], giftList) => p`
     <table>
         <thead>
             <th>Name</th>
@@ -10452,14 +10457,16 @@
             ${items.map(itemsRow)}
         </tbody>
     </table>
+    <div><strong>Total:</strong> ${giftList.totalPrice}</div>
     <br /><br />
     `;
   var WishListView = class extends MobxLitElement {
     giftList = WishList.create();
     firstUpdated = () => {
       this.giftList.load();
+      this.giftList.updatePriceCont();
     };
-    render = () => this.giftList ? itemTable(this.giftList.items) : "Loading";
+    render = () => this.giftList ? itemTable(this.giftList.items, this.giftList) : "Loading";
   };
   WishListView = __decorateClass([
     n5("wish-list-item-view")
